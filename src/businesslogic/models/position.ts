@@ -1,14 +1,11 @@
 export class Position {
+  constructor(private _lat: number, private _lon: number) {}
 
-    constructor(private _lat: number,
-                private _lon: number) {
-    }
+  get lat(): number {
+    return this._lat;
+  }
 
-    get lat(): number {
-        return this._lat;
-    }
-
-    get lon(): number {
-        return this._lon;
-    }
+  get lon(): number {
+    return this._lon;
+  }
 }

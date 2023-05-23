@@ -1,8 +1,8 @@
-import {Position} from "../models/position";
+import { Position } from '../models/position';
 
 export interface BookingUberCommand {
-    customerId: string;
-    bookingId: string;
-    startPoint: Position;
-    endPoint: Position;
+  customerId: string;
+  bookingId: string;
+  startPoint: Position;
+  endPoint: Position;
 }

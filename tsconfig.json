@@ -1,27 +1,9 @@
 {
+  "extends": "@ymeskini/tsconfig",
   "compilerOptions": {
-    "outDir": "./dist/",
-    "sourceMap": true,
-    "noImplicitAny": false,
-    "module": "commonjs",
-    "target": "es6",
-    "jsx": "react",
-    "lib": ["es5", "es6", "dom"],
-    "strict": true,
-    "esModuleInterop": true
+    "outDir": "./dist",
+    "module": "Node16",
   },
-  "include": [
-    "./src/**/*"
-  ],
-  "exclude": [
-    "./src/**/*.spec.ts",
-    "./src/**/*.spec.tsx",
-    "./src/**/*.ispec.ts",
-    "./src/**/*.ispec.tsx"
-  ],
-  "awesomeTypescriptLoaderOptions": {
-    "reportFiles": [
-      "./src/**/*"
-    ]
-  }
+  "include": ["./src"],
+  "exclude": ["node_modules"]
 }
