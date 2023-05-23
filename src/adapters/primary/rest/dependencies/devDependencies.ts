@@ -1,6 +1,6 @@
 import {Dependencies} from "./dependencies.interface";
 import {EasyTripTypeScanner} from "../../../secondary/gateways/fake/easyTripTypeScanner";
-import * as knex from "knex";
+import knex from "knex";
 import {SqlBookingRepository} from "../../../secondary/gateways/real/sqlBookingRepository";
 import {SqlUberRepository} from "../../../secondary/gateways/real/sqlUberRepository";
 import {KnexTransactionsPerformer} from "../../../secondary/gateways/real/knexTransformationsPerformers";
