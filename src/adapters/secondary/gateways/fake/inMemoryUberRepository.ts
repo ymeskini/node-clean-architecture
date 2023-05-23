@@ -3,7 +3,7 @@ import { UberRepository } from '../../../../businesslogic/gateways/uberRepositor
 export class InMemoryUberRepository implements UberRepository {
   private _ubers: string[] = [];
 
-  availableOne(): Promise<string> {
+  availableOne(): Promise<string | undefined> {
     return Promise.resolve(this._ubers[0]);
   }
 

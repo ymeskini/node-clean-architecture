@@ -12,7 +12,7 @@ export class InMemoryBookingRepository implements BookingRepository {
   }
 
   save(booking: Booking): (trx: GenericTransaction) => Promise<void> {
-    return async (trx) => {
+    return async () => {
       this._bookings.push(booking);
       return;
     };

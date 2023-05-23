@@ -6,7 +6,7 @@ export class Booking {
     private _id: string,
     private _startPoint: Position,
     private _endPoint: Position,
-    private _uberId: string,
+    private _uberId: string | undefined,
     private _price: number,
   ) {}
 
@@ -30,7 +30,7 @@ export class Booking {
     return this._endPoint;
   }
 
-  get uberId(): string {
+  get uberId() {
     return this._uberId;
   }
 

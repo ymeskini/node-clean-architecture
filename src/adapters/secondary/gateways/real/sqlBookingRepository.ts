@@ -1,14 +1,12 @@
 import { BookingRepository } from '../../../../businesslogic/gateways/bookingRepository.interface';
-import * as knex from 'knex';
+import { Knex } from 'knex';
 import { Booking } from '../../../../businesslogic/models/booking';
 import { GenericTransaction } from '../../../../businesslogic/gateways/transactionPerformer.interface';
-import { Transaction } from 'knex';
 import { Position } from '../../../../businesslogic/models/position';
 
 export class SqlBookingRepository implements BookingRepository {
-  private sqlConnection: knex;
-
-  constructor(sqlConnection: knex) {
+  private sqlConnection: Knex;
+  constructor(sqlConnection: Knex) {
     this.sqlConnection = sqlConnection;
   }
 
@@ -34,7 +32,7 @@ export class SqlBookingRepository implements BookingRepository {
   save(booking: Booking): (trx: GenericTransaction) => Promise<void> {
     return async (trx) => {
       await this.sqlConnection('bookings')
-        .transacting(trx as Transaction)
+        .transacting(trx as Knex.Transaction)
         .insert({
           id: booking.id,
           customer_id: booking.customerId,

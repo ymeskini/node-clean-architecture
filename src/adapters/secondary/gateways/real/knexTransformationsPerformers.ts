@@ -1,13 +1,13 @@
-import * as knex from 'knex';
+import { Knex } from 'knex';
 import {
   GenericTransaction,
   TransactionPerformer,
 } from '../../../../businesslogic/gateways/transactionPerformer.interface';
 
 export class KnexTransactionsPerformer implements TransactionPerformer {
-  private sqlConnection: knex;
+  private sqlConnection: Knex;
 
-  constructor(sqlConnection: knex) {
+  constructor(sqlConnection: Knex) {
     this.sqlConnection = sqlConnection;
   }
 

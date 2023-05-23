@@ -4,7 +4,7 @@ import knex from 'knex';
 import { SqlBookingRepository } from '../../../secondary/gateways/real/sqlBookingRepository';
 import { SqlUberRepository } from '../../../secondary/gateways/real/sqlUberRepository';
 import { KnexTransactionsPerformer } from '../../../secondary/gateways/real/knexTransformationsPerformers';
-import * as knexConfig from '../../../../../config/knexfile';
+import knexConfig from '../../../../../config/knexfile';
 
 export const devDependencies: () => Dependencies = () => {
   const sqlConnection = knex(knexConfig.development);

@@ -1,10 +1,10 @@
-import knex from 'knex';
+import { Knex } from 'knex';
 import { UberRepository } from '../../../../businesslogic/gateways/uberRepository';
 
 export class SqlUberRepository implements UberRepository {
-  private sqlConnection: knex;
+  private sqlConnection: Knex;
 
-  constructor(sqlConnection: knex) {
+  constructor(sqlConnection: Knex) {
     this.sqlConnection = sqlConnection;
   }
 

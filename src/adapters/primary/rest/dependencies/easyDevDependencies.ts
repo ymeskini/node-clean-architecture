@@ -4,7 +4,7 @@ import { InMemoryTransactionsPerformer } from '../../../secondary/gateways/fake/
 import { EasyTripTypeScanner } from '../../../secondary/gateways/fake/easyTripTypeScanner';
 import { InMemoryUberRepository } from '../../../secondary/gateways/fake/inMemoryUberRepository';
 
-export const easyDevDependencies: () => Dependencies = () => {
+export const inMemoryDevDependencies = (): Dependencies => {
   const bookingRepository = new InMemoryBookingRepository();
   const uberRepository = new InMemoryUberRepository();
   const transactionPerformer = new InMemoryTransactionsPerformer();

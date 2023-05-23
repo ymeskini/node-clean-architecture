@@ -7,12 +7,7 @@ export const configureBookingController = (
   app: Express,
   dependencies: Dependencies,
 ) => {
-  const {
-    bookingRepository,
-    uberRepository,
-    tripTypeScanner,
-    transactionPerformer,
-  } = dependencies;
+  const { bookingRepository, uberRepository, tripTypeScanner } = dependencies;
 
   app.get('/customers/:customerId/bookings', async (req, res) => {
     const bookings = await new RetrieveCustomerBookingsHistory(
@@ -28,7 +23,6 @@ export const configureBookingController = (
       bookingRepository,
       uberRepository,
       tripTypeScanner,
-      transactionPerformer,
     ).handle({
       customerId,
       bookingId,
