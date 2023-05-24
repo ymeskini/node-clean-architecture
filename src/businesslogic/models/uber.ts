@@ -1,9 +1,18 @@
-import { Position } from './position';
+import { z } from 'zod';
+import { Position, positionSchema } from './position';
 
-export class Uber {
+const uberSchema = z.object({
+  id: z.string(),
+  startPoint: positionSchema,
+  endPoint: positionSchema,
+});
+
+export type Uber = z.infer<typeof uberSchema>;
+
+export class UberModel {
   constructor(
     private _id: string,
-    private startPoint: Position,
-    private endPoint: Position,
+    private _startPoint: Position,
+    private _endPoint: Position,
   ) {}
 }

@@ -1,6 +1,18 @@
-import { Position } from './position';
+import { z } from 'zod';
+import { Position, positionSchema } from './position';
 
-export class Booking {
+export const bookingSchema = z.object({
+  customerId: z.string(),
+  id: z.string(),
+  startPoint: positionSchema,
+  endPoint: positionSchema,
+  uberId: z.string().optional(),
+  price: z.number(),
+});
+
+export type Booking = z.infer<typeof bookingSchema>;
+
+export class BookingModel {
   constructor(
     private _customerId: string,
     private _id: string,

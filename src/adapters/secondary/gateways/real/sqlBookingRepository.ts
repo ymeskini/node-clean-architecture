@@ -1,7 +1,6 @@
 import { BookingRepository } from '../../../../businesslogic/gateways/bookingRepository.interface';
 import { Knex } from 'knex';
-import { Booking } from '../../../../businesslogic/models/booking';
-import { GenericTransaction } from '../../../../businesslogic/gateways/transactionPerformer.interface';
+import { BookingModel } from '../../../../businesslogic/models/booking';
 import { Position } from '../../../../businesslogic/models/position';
 
 export class SqlBookingRepository implements BookingRepository {
@@ -10,39 +9,42 @@ export class SqlBookingRepository implements BookingRepository {
     this.sqlConnection = sqlConnection;
   }
 
-  async byCustomerId(customerId: string): Promise<Booking[]> {
+  async byCustomerId(customerId: string): Promise<BookingModel[]> {
     const bookingRawResults = await this.sqlConnection('bookings')
       .select()
-      .where({ customer_id: customerId });
+      .where({ customerId });
     return bookingRawResults.map((bookingRawResult) => {
-      return new Booking(
-        bookingRawResult['customer_id'],
-        bookingRawResult['id'],
+      return new BookingModel(
+        bookingRawResult.customerId,
+        bookingRawResult.id,
         new Position(
-          bookingRawResult['start_lat'],
-          bookingRawResult['start_lon'],
+          bookingRawResult.startPoint.lat,
+          bookingRawResult.startPoint.lon,
         ),
-        new Position(bookingRawResult['end_lat'], bookingRawResult['end_lon']),
-        bookingRawResult['uber_id'],
-        bookingRawResult['price'],
+        new Position(
+          bookingRawResult.endPoint.lat,
+          bookingRawResult.endPoint.lon,
+        ),
+        bookingRawResult.uberId,
+        bookingRawResult.price,
       );
     });
   }
 
-  save(booking: Booking): (trx: GenericTransaction) => Promise<void> {
-    return async (trx) => {
-      await this.sqlConnection('bookings')
-        .transacting(trx as Knex.Transaction)
-        .insert({
-          id: booking.id,
-          customer_id: booking.customerId,
-          uber_id: booking.uberId,
-          start_lat: booking.startPoint.lat,
-          start_lon: booking.startPoint.lon,
-          end_lat: booking.endPoint.lat,
-          end_lon: booking.endPoint.lon,
-          price: booking.price,
-        });
-    };
+  async save(booking: BookingModel): Promise<void> {
+    await this.sqlConnection('bookings').insert({
+      id: booking.id,
+      customerId: booking.customerId,
+      uberId: booking.uberId,
+      startPoint: {
+        lat: booking.startPoint.lat,
+        lon: booking.startPoint.lon,
+      },
+      endPoint: {
+        lat: booking.endPoint.lat,
+        lon: booking.endPoint.lon,
+      },
+      price: booking.price,
+    });
   }
 }

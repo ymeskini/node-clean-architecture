@@ -6,11 +6,11 @@ const knexConfig: Record<Env, Knex.Config> = {
   development: {
     client: 'postgresql',
     connection: {
-      host: 'localhost',
-      port: 32768,
+      host: 'postgres',
+      port: 5432,
       database: 'wealuber',
-      user: 'postgres',
-      password: 'postgrespw',
+      user: 'admin',
+      password: 'admin',
     },
     migrations: {
       directory: __dirname + '/migrations/',

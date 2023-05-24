@@ -3,7 +3,6 @@ import { EasyTripTypeScanner } from '../../../secondary/gateways/fake/easyTripTy
 import knex from 'knex';
 import { SqlBookingRepository } from '../../../secondary/gateways/real/sqlBookingRepository';
 import { SqlUberRepository } from '../../../secondary/gateways/real/sqlUberRepository';
-import { KnexTransactionsPerformer } from '../../../secondary/gateways/real/knexTransformationsPerformers';
 import knexConfig from '../../../../../config/knexfile';
 
 export const devDependencies: () => Dependencies = () => {
@@ -11,11 +10,9 @@ export const devDependencies: () => Dependencies = () => {
   const bookingRepository = new SqlBookingRepository(sqlConnection);
   const uberRepository = new SqlUberRepository(sqlConnection);
   const tripTypeScanner = new EasyTripTypeScanner();
-  const transactionPerformer = new KnexTransactionsPerformer(sqlConnection);
 
   return {
     bookingRepository,
-    transactionPerformer,
     tripTypeScanner,
     uberRepository,
   };

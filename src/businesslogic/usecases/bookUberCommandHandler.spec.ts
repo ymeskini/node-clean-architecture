@@ -1,13 +1,11 @@
 import { BookUberCommandHandler } from './bookUberCommandHandler';
-import { Booking } from '../models/booking';
+import { BookingModel } from '../models/booking';
 import { Position } from '../models/position';
 import { InMemoryUberRepository } from '../../adapters/secondary/gateways/fake/inMemoryUberRepository';
 import { InMemoryBookingRepository } from '../../adapters/secondary/gateways/fake/inMemoryBookingRepository';
 import { EnteringTripTypeScanner } from '../../adapters/secondary/gateways/fake/enteringTripTypeScanner';
 import { LeavingTripTypeScanner } from '../../adapters/secondary/gateways/fake/leavingTripTypeScanner';
 import { AbstractTripTypeScanner } from '../../adapters/secondary/gateways/fake/abstractTripTypeScanner';
-import { TransactionPerformer } from '../gateways/transactionPerformer.interface';
-import { InMemoryTransactionsPerformer } from '../../adapters/secondary/gateways/fake/inmemoryTransactionPerformer';
 
 describe('Uber booking', () => {
   let bookingRepository: InMemoryBookingRepository;
@@ -18,12 +16,10 @@ describe('Uber booking', () => {
   const availableUberId = '319e4163-3152-40c0-bcc1-1800fe707082';
   const customerId = '666e4163-3152-40c0-bcc1-1800fe707082';
   let tripTypeScanner: AbstractTripTypeScanner;
-  let transactionPerformer: TransactionPerformer;
 
   beforeEach(() => {
     bookingRepository = new InMemoryBookingRepository();
     uberRepository = new InMemoryUberRepository();
-    transactionPerformer = new InMemoryTransactionsPerformer();
     uberRepository.feedUbers('319e4163-3152-40c0-bcc1-1800fe707082');
   });
 
@@ -79,7 +75,6 @@ describe('Uber booking', () => {
       bookingRepository,
       uberRepository,
       tripTypeScanner,
-      transactionPerformer,
     ).handle({
       customerId,
       bookingId,
@@ -97,7 +92,7 @@ describe('Uber booking', () => {
     price: number,
   ) => {
     expect(bookingRepository.bookings()).toEqual([
-      new Booking(
+      new BookingModel(
         customerId,
         bookingId,
         startPoint,

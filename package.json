@@ -12,7 +12,8 @@
     "clean-dist": "rm -f -r -d dist",
     "db:migrate": "knex migrate:latest --knexfile=config/knexfile.ts --env=development",
     "db:seed": "knex seed:run --knexfile=config/knexfile.ts --env=development",
-    "eslint:fix": "eslint --fix src"
+    "eslint:fix": "eslint --fix src",
+    "type": "tsc --noEmit"
   },
   "keywords": [],
   "author": "",

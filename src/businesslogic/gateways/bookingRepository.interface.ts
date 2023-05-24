@@ -1,7 +1,6 @@
-import { Booking } from '../models/booking';
-import { GenericTransaction } from './transactionPerformer.interface';
+import { BookingModel } from '../models/booking';
 
 export interface BookingRepository {
-  save(booking: Booking): (trx: GenericTransaction) => Promise<void>;
-  byCustomerId(customerId: string): Promise<Booking[]>;
+  save(booking: BookingModel): Promise<void>;
+  byCustomerId(customerId: string): Promise<BookingModel[]>;
 }

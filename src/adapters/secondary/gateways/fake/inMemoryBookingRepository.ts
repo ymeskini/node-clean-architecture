@@ -1,24 +1,21 @@
-import { Booking } from '../../../../businesslogic/models/booking';
+import { BookingModel } from '../../../../businesslogic/models/booking';
 import { BookingRepository } from '../../../../businesslogic/gateways/bookingRepository.interface';
-import { GenericTransaction } from '../../../../businesslogic/gateways/transactionPerformer.interface';
 
 export class InMemoryBookingRepository implements BookingRepository {
-  private _bookings: Booking[] = [];
+  private _bookings: BookingModel[] = [];
 
-  byCustomerId(customerId: string): Promise<Booking[]> {
+  byCustomerId(customerId: string): Promise<BookingModel[]> {
     return Promise.resolve(
       this._bookings.filter((booking) => booking.fromCustomerId(customerId)),
     );
   }
 
-  save(booking: Booking): (trx: GenericTransaction) => Promise<void> {
-    return async () => {
-      this._bookings.push(booking);
-      return;
-    };
+  save(booking: BookingModel): Promise<void> {
+    this._bookings.push(booking);
+    return Promise.resolve();
   }
 
-  feedWithBookings(...bookings: Booking[]) {
+  feedWithBookings(...bookings: BookingModel[]) {
     for (const booking of bookings) {
       this._bookings.push(booking);
     }

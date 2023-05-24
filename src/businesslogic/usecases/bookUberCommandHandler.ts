@@ -1,5 +1,5 @@
 import { BookingRepository } from '../gateways/bookingRepository.interface';
-import { Booking } from '../models/booking';
+import { BookingModel } from '../models/booking';
 import { UberRepository } from '../gateways/uberRepository';
 import { TripTypeScanner } from '../gateways/tripTypeScanner.interface';
 import { BookingUberCommand } from './bookingUberCommand.interface';
@@ -19,7 +19,7 @@ export class BookUberCommandHandler {
       this.uberRepository.availableOne(),
     ]);
     await this.bookingRepository.save(
-      new Booking(
+      new BookingModel(
         customerId,
         bookingId,
         startPoint,

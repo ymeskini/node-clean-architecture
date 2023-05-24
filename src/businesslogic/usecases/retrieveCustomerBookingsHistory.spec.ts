@@ -1,6 +1,6 @@
 import { RetrieveCustomerBookingsHistory } from './retrieveCustomerBookingsHistory';
 import { InMemoryBookingRepository } from '../../adapters/secondary/gateways/fake/inMemoryBookingRepository';
-import { Booking } from '../models/booking';
+import { BookingModel } from '../models/booking';
 import { Position } from '../models/position';
 
 describe('Customer bookings history retrieval', () => {
@@ -24,7 +24,7 @@ describe('Customer bookings history retrieval', () => {
     const availableUberId = '319e4163-3152-40c0-bcc1-1800fe707082';
 
     it('should not retrieve any bookings when customer id is unknown', async () => {
-      const existingBooking = new Booking(
+      const existingBooking = new BookingModel(
         'unknownId',
         newBookingId,
         startPoint,
@@ -37,7 +37,7 @@ describe('Customer bookings history retrieval', () => {
     });
 
     it("should retrieve the customer's bookings", async () => {
-      const existingBooking = new Booking(
+      const existingBooking = new BookingModel(
         customerId,
         newBookingId,
         startPoint,

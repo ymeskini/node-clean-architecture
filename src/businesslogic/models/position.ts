@@ -1,3 +1,10 @@
+import { z } from 'zod';
+
+export const positionSchema = z.object({
+  lat: z.number(),
+  lon: z.number(),
+});
+
 export class Position {
   constructor(private _lat: number, private _lon: number) {}
 
