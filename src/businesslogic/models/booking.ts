@@ -14,12 +14,12 @@ export type Booking = z.infer<typeof bookingSchema>;
 
 export class BookingModel {
   constructor(
-    readonly customerId: string,
     readonly id: string,
-    readonly startPoint: Position,
-    readonly endPoint: Position,
+    readonly customerId: string,
     readonly uberId: string,
     readonly price: number,
+    readonly startPoint: Position,
+    readonly endPoint: Position,
   ) {}
 
   fromCustomerId(customerId: string) {

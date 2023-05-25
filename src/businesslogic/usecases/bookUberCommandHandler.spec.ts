@@ -32,12 +32,12 @@ describe('Uber booking', () => {
       it('should book an uber', async () => {
         await bookAnUber(newBookingId, startPoint, endPoint);
         expectBookings(
-          customerId,
           newBookingId,
-          startPoint,
-          endPoint,
+          customerId,
           availableUberId,
           0,
+          startPoint,
+          endPoint,
         );
       });
     });
@@ -52,12 +52,12 @@ describe('Uber booking', () => {
       it('should book an uber', async () => {
         await bookAnUber(newBookingId, startPoint, endPoint);
         expectBookings(
-          customerId,
           newBookingId,
-          startPoint,
-          endPoint,
+          customerId,
           availableUberId,
           50,
+          startPoint,
+          endPoint,
         );
         expect(
           tripTypeScanner.scanWasCalledWith(startPoint, endPoint),
@@ -84,21 +84,21 @@ describe('Uber booking', () => {
   };
 
   const expectBookings = (
-    customerId: string,
     bookingId: string,
-    startPoint: Position,
-    endPoint: Position,
+    customerId: string,
     availableUberId: string,
     price: number,
+    startPoint: Position,
+    endPoint: Position,
   ) => {
     expect(bookingRepository.bookings()).toEqual([
       new BookingModel(
-        customerId,
         bookingId,
-        startPoint,
-        endPoint,
+        customerId,
         availableUberId,
         price,
+        startPoint,
+        endPoint,
       ),
     ]);
   };

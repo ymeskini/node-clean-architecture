@@ -3,15 +3,18 @@
   "version": "1.0.0",
   "description": "Hexagonal Architecture example with Node.js and TypeScript",
   "main": "src/adapters/primary/rest/server.ts",
-  "keywords": [],
+  "keywords": [
+    "clean architecture",
+    "tdd",
+    "clean code"
+  ],
   "author": "Youssef Meskini",
   "license": "ISC",
   "scripts": {
     "start": "nodemon",
     "start-in-memory": "IN_MEMORY=true nodemon",
-    "test": "jest",
     "test:unit": "jest",
-    "test:int": "jest",
+    "test:int": "jest --testRegex='.*\\.ispec\\.ts$'",
     "clean": "rm -f -r -d dist",
     "db:migrate": "knex migrate:latest --knexfile=src/adapters/secondary/gateways/real/knex/knexfile.ts --env=development",
     "db:seed": "knex seed:run --knexfile=src/adapters/secondary/gateways/real/knex/knexfile.ts --env=development",
@@ -40,6 +43,7 @@
     "jest": "^29.5.0",
     "nodemon": "^2.0.22",
     "prettier": "^2.8.8",
+    "testcontainers": "^9.8.0",
     "ts-jest": "^29.1.0",
     "ts-node": "^10.9.1",
     "typescript": "^5.0.4"

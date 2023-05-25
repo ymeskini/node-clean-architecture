@@ -25,12 +25,12 @@ describe('Customer bookings history retrieval', () => {
 
     it('should not retrieve any bookings when customer id is unknown', async () => {
       const existingBooking = new BookingModel(
-        'unknownId',
         newBookingId,
-        startPoint,
-        endPoint,
+        'unknownId',
         availableUberId,
         50,
+        startPoint,
+        endPoint,
       );
       bookingsRepository.feedWithBookings(existingBooking);
       expect(await retrieveHistory(customerId)).toEqual([]);
@@ -38,12 +38,12 @@ describe('Customer bookings history retrieval', () => {
 
     it("should retrieve the customer's bookings", async () => {
       const existingBooking = new BookingModel(
-        customerId,
         newBookingId,
-        startPoint,
-        endPoint,
+        customerId,
         availableUberId,
         50,
+        startPoint,
+        endPoint,
       );
       bookingsRepository.feedWithBookings(existingBooking);
       expect(await retrieveHistory(customerId)).toEqual([existingBooking]);

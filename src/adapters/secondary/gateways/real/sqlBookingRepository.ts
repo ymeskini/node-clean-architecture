@@ -16,8 +16,10 @@ export class SqlBookingRepository implements BookingRepository {
       .where({ customerId });
     return bookingRawResults.map((bookingRawResult) => {
       return new BookingModel(
-        bookingRawResult.customerId,
         bookingRawResult.id,
+        bookingRawResult.customerId,
+        bookingRawResult.uberId,
+        bookingRawResult.price,
         new Position(
           bookingRawResult.startPoint.lat,
           bookingRawResult.startPoint.lon,
@@ -26,15 +28,13 @@ export class SqlBookingRepository implements BookingRepository {
           bookingRawResult.endPoint.lat,
           bookingRawResult.endPoint.lon,
         ),
-        bookingRawResult.uberId,
-        bookingRawResult.price,
       );
     });
   }
 
   async save(booking: BookingModel): Promise<void> {
     await this.sqlConnection('bookings').insert({
-      id: booking.customerId,
+      id: booking.id,
       customerId: booking.customerId,
       uberId: booking.uberId,
       startPoint: {

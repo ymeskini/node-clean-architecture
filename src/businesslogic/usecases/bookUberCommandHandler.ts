@@ -22,12 +22,12 @@ export class BookUberCommandHandler {
     ]);
     await this.bookingRepository.save(
       new BookingModel(
-        customerId,
         bookingId,
-        startPosition,
-        endPosition,
+        customerId,
         availableUberId,
         tripType.determinePrice(),
+        startPosition,
+        endPosition,
       ),
     );
   }

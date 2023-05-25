@@ -25,12 +25,21 @@ const knexConfig: Record<Env, Knex.Config> = {
     },
   },
   tests: {
+    client: 'postgresql',
     connection: {
       host: 'localhost',
       port: 5432,
-      database: 'wealuber',
+      database: 'wealuber_tests',
       user: 'postgres',
       password: 'postgres',
+    },
+    pool: {
+      min: 2,
+      max: 10,
+    },
+    migrations: {
+      directory: __dirname + '/migrations/',
+      tableName: 'knex_migrations',
     },
   },
 };

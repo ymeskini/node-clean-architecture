@@ -4,11 +4,9 @@ export async function up(knex: Knex): Promise<void> {
   return knex.schema
     .createTable('ubers', function (t) {
       t.uuid('id').primary();
-      t.timestamps(true, true, true);
     })
     .createTable('bookings', function (t) {
       t.uuid('id').primary();
-      t.timestamps(true, true, true);
       t.uuid('uberId').notNullable();
       t.uuid('customerId').notNullable();
       t.json('startPoint').notNullable();

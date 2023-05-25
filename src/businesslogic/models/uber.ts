@@ -11,8 +11,8 @@ export type Uber = z.infer<typeof uberSchema>;
 
 export class UberModel {
   constructor(
-    private _id: string,
-    private _startPoint: Position,
-    private _endPoint: Position,
+    readonly id: string,
+    readonly startPoint: Position,
+    readonly endPoint: Position,
   ) {}
 }

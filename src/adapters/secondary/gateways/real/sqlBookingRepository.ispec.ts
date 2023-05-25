@@ -1,27 +1,48 @@
-import knexConfig from './knex/knexfile';
-import knex from 'knex';
+import knex, { Knex } from 'knex';
+import {
+  PostgreSqlContainer,
+  StartedPostgreSqlContainer,
+} from 'testcontainers';
+
 import { SqlBookingRepository } from './sqlBookingRepository';
 import { BookingModel } from '../../../../businesslogic/models/booking';
 import { Position } from '../../../../businesslogic/models/position';
-import { resetDB } from './knex/resetDb';
-
-const sqlConnection = knex(knexConfig.tests);
+import { runMigration } from './knex/resetDb';
+import { randomUUID } from 'crypto';
 
 describe('Sql booking repository', () => {
+  let sqlConnection: Knex;
   let sqlBookingRepository: SqlBookingRepository;
+  let container: StartedPostgreSqlContainer;
 
-  const newBookingId = '7de9f5d9-482b-444a-8846-fac7caec14ee';
+  let newBookingId: string;
   const startPoint = new Position(2, 24);
   const endPoint = new Position(3, 28);
   const availableUberId = '319e4163-3152-40c0-bcc1-1800fe707082';
 
+  beforeAll(async () => {
+    container = await new PostgreSqlContainer().start();
+    sqlConnection = knex({
+      client: 'postgresql',
+      connection: {
+        database: container.getDatabase(),
+        host: container.getHost(),
+        password: container.getPassword(),
+        port: container.getPort(),
+        user: container.getUsername(),
+      },
+    });
+    await runMigration(sqlConnection);
+  }, 10000);
+
   beforeEach(async () => {
-    await resetDB(sqlConnection);
+    newBookingId = randomUUID();
     sqlBookingRepository = new SqlBookingRepository(sqlConnection);
   });
 
   afterAll(async () => {
     await sqlConnection.destroy();
+    await container.stop();
   });
 
   it('should insert a booking successfully', async () => {
@@ -32,32 +53,39 @@ describe('Sql booking repository', () => {
     ]);
     await sqlBookingRepository.save(
       new BookingModel(
-        '86381977-7922-4943-9336-ca3e0db7eb60',
         newBookingId,
-        startPoint,
-        endPoint,
+        '86381977-7922-4943-9336-ca3e0db7eb60',
         availableUberId,
         50,
+        startPoint,
+        endPoint,
       ),
     );
     const bookings = await sqlConnection.select().table('bookings').select();
     expect(bookings).toEqual([
       {
-        customer_id: '86381977-7922-4943-9336-ca3e0db7eb60',
-        end_lat: 3,
-        end_lon: 28,
-        id: '7de9f5d9-482b-444a-8846-fac7caec14ee',
+        id: newBookingId,
+        customerId: '86381977-7922-4943-9336-ca3e0db7eb60',
+        uberId: '319e4163-3152-40c0-bcc1-1800fe707082',
+        endPoint: {
+          lat: 3,
+          lon: 28,
+        },
+        startPoint: {
+          lat: 2,
+          lon: 24,
+        },
         price: 50,
-        start_lat: 2,
-        start_lon: 24,
-        uber_id: '319e4163-3152-40c0-bcc1-1800fe707082',
       },
     ]);
   });
 
   it('should retrieve bookings from a given customer', async () => {
+    const customerId = randomUUID();
     await sqlConnection('bookings').insert({
-      customerId: '86381977-7922-4943-9336-ca3e0db7eb60',
+      id: newBookingId,
+      uberId: '319e4163-3152-40c0-bcc1-1800fe707082',
+      customerId: customerId,
       startPoint: {
         lat: 2,
         lon: 24,
@@ -66,21 +94,19 @@ describe('Sql booking repository', () => {
         lat: 3,
         lon: 28,
       },
-      id: '7de9f5d9-482b-444a-8846-fac7caec14ee',
       price: 50,
-      uberId: '319e4163-3152-40c0-bcc1-1800fe707082',
     });
     const bookings: BookingModel[] = await sqlBookingRepository.byCustomerId(
-      '86381977-7922-4943-9336-ca3e0db7eb60',
+      customerId,
     );
     expect(bookings).toEqual([
       new BookingModel(
-        '86381977-7922-4943-9336-ca3e0db7eb60',
         newBookingId,
-        startPoint,
-        endPoint,
+        customerId,
         availableUberId,
         50,
+        startPoint,
+        endPoint,
       ),
     ]);
   });
