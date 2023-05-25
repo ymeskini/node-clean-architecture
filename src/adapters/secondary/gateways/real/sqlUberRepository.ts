@@ -10,6 +10,9 @@ export class SqlUberRepository implements UberRepository {
 
   async availableOne(): Promise<string> {
     const uberRawResult = await this.sqlConnection('ubers').select().first();
-    return uberRawResult['id'];
+    if (!uberRawResult) {
+      throw new Error('No available ubers');
+    }
+    return uberRawResult.id;
   }
 }

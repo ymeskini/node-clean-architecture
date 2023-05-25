@@ -3,6 +3,8 @@ version: '3.8'
 services:
   app:
     restart: always
+    depends_on:
+      - postgres
     build: .
     ports:
       - '3001:3001'
@@ -15,4 +17,9 @@ services:
     image: postgres
     ports:
       - '5432:5432'
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: wealuber
 

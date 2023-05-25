@@ -25,7 +25,7 @@ describe('Uber booking', () => {
 
   describe('Customer willing to enter in Paris', () => {
     beforeEach(() => {
-      tripTypeScanner = new EnteringTripTypeScanner();
+      tripTypeScanner = new EnteringTripTypeScanner(startPoint, endPoint);
     });
 
     describe('Successful booking', () => {
@@ -45,7 +45,7 @@ describe('Uber booking', () => {
 
   describe('Customer willing to leave Paris', () => {
     beforeEach(() => {
-      tripTypeScanner = new LeavingTripTypeScanner();
+      tripTypeScanner = new LeavingTripTypeScanner(startPoint, endPoint);
     });
 
     describe('Successful booking', () => {

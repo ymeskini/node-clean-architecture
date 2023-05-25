@@ -1,3 +1,3 @@
 export interface UberRepository {
-  availableOne(): Promise<string | undefined>;
+  availableOne(): Promise<string>;
 }

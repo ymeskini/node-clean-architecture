@@ -4,15 +4,15 @@ export async function up(knex: Knex): Promise<void> {
   return knex.schema
     .createTable('ubers', function (t) {
       t.uuid('id').primary();
+      t.timestamps(true, true, true);
     })
     .createTable('bookings', function (t) {
       t.uuid('id').primary();
-      t.uuid('uber_id').notNullable();
-      t.uuid('customer_id').notNullable();
-      t.integer('start_lat').notNullable();
-      t.integer('end_lat').notNullable();
-      t.integer('start_lon').notNullable();
-      t.integer('end_lon').notNullable();
+      t.timestamps(true, true, true);
+      t.uuid('uberId').notNullable();
+      t.uuid('customerId').notNullable();
+      t.json('startPoint').notNullable();
+      t.json('endPoint').notNullable();
       t.integer('price').notNullable();
     });
 }

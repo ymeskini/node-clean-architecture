@@ -3,7 +3,7 @@ import { EasyTripTypeScanner } from '../../../secondary/gateways/fake/easyTripTy
 import knex from 'knex';
 import { SqlBookingRepository } from '../../../secondary/gateways/real/sqlBookingRepository';
 import { SqlUberRepository } from '../../../secondary/gateways/real/sqlUberRepository';
-import knexConfig from '../../../../../config/knexfile';
+import knexConfig from '../../../secondary/gateways/real/knex/knexfile';
 
 export const devDependencies: () => Dependencies = () => {
   const sqlConnection = knex(knexConfig.development);

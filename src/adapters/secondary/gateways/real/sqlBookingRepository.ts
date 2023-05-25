@@ -1,5 +1,6 @@
-import { BookingRepository } from '../../../../businesslogic/gateways/bookingRepository.interface';
 import { Knex } from 'knex';
+
+import { BookingRepository } from '../../../../businesslogic/gateways/bookingRepository.interface';
 import { BookingModel } from '../../../../businesslogic/models/booking';
 import { Position } from '../../../../businesslogic/models/position';
 
@@ -33,7 +34,7 @@ export class SqlBookingRepository implements BookingRepository {
 
   async save(booking: BookingModel): Promise<void> {
     await this.sqlConnection('bookings').insert({
-      id: booking.id,
+      id: booking.customerId,
       customerId: booking.customerId,
       uberId: booking.uberId,
       startPoint: {

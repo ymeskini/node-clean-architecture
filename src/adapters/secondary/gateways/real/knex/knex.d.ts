@@ -30,5 +30,11 @@ declare module 'knex/types/tables' {
       //      .where('id', 10)`
       Partial<Omit<Booking, 'id'>>
     >;
+
+    ubers_composite: Knex.CompositeTableType<
+      Uber,
+      Uber,
+      Partial<Omit<Uber, 'id'>>
+    >;
   }
 }

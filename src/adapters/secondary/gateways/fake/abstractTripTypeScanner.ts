@@ -3,12 +3,14 @@ import { TripTypeScanner } from '../../../../businesslogic/gateways/tripTypeScan
 import { TripType } from '../../../../businesslogic/models/tripType';
 
 export abstract class AbstractTripTypeScanner implements TripTypeScanner {
-  protected _startPoint: Position;
-  protected _endPoint: Position;
+  protected abstract _startPoint: Position;
+  protected abstract _endPoint: Position;
 
   abstract scan(startPoint: Position, endPoint: Position): Promise<TripType>;
 
   scanWasCalledWith(startPoint: Position, endPoint: Position) {
-    return this._startPoint === startPoint && this._endPoint === endPoint;
+    return (
+      this._startPoint.compare(startPoint) && this._endPoint.compare(endPoint)
+    );
   }
 }

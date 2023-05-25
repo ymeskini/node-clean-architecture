@@ -3,6 +3,7 @@ import { BookingModel } from '../models/booking';
 import { UberRepository } from '../gateways/uberRepository';
 import { TripTypeScanner } from '../gateways/tripTypeScanner.interface';
 import { BookingUberCommand } from './bookingUberCommand.interface';
+import { Position } from '../models/position';
 
 export class BookUberCommandHandler {
   constructor(
@@ -13,17 +14,18 @@ export class BookUberCommandHandler {
 
   async handle(command: BookingUberCommand) {
     const { customerId, bookingId, startPoint, endPoint } = command;
-    // await this.transactionPerformer.perform(async (trx) => {
+    const startPosition = new Position(startPoint.lat, startPoint.lon);
+    const endPosition = new Position(endPoint.lat, endPoint.lon);
     const [tripType, availableUberId] = await Promise.all([
-      this.tripTypeScanner.scan(startPoint, endPoint),
+      this.tripTypeScanner.scan(startPosition, endPosition),
       this.uberRepository.availableOne(),
     ]);
     await this.bookingRepository.save(
       new BookingModel(
         customerId,
         bookingId,
-        startPoint,
-        endPoint,
+        startPosition,
+        endPosition,
         availableUberId,
         tripType.determinePrice(),
       ),

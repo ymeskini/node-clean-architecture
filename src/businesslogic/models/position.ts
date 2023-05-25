@@ -5,14 +5,12 @@ export const positionSchema = z.object({
   lon: z.number(),
 });
 
+export type PositionType = z.infer<typeof positionSchema>;
+
 export class Position {
-  constructor(private _lat: number, private _lon: number) {}
+  constructor(readonly lat: number, readonly lon: number) {}
 
-  get lat(): number {
-    return this._lat;
-  }
-
-  get lon(): number {
-    return this._lon;
+  compare(position: Position) {
+    return this.lat === position.lat && this.lon === position.lon;
   }
 }
