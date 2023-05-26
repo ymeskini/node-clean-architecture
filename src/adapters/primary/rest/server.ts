@@ -7,11 +7,9 @@ import { inMemoryDevDependencies } from './dependencies/easyDevDependencies';
 import { devDependencies } from './dependencies/devDependencies';
 import { errorHandler } from './middleware/errorHandler';
 import { logger } from './modules/logger';
+import { env } from './env';
 
-if (process.env['NODE_ENV'] !== 'production') {
-  config();
-}
-const port = process.env['PORT'] || 3001;
+config();
 
 const app = express();
 
@@ -21,20 +19,27 @@ app
   .use(express.json())
   .use((req, res, next) => {
     res.on('finish', () => {
-      logger.info(`${req.url} ${res.statusCode}`);
+      logger.info(
+        `${new Date().toISOString()}  ${req.url} - ${res.statusCode}`,
+      );
     });
     next();
+  })
+  .all('*', (_req, res) => {
+    res.status(404).send({ message: 'Not Found' });
   });
 
-if (process.env['IN_MEMORY'] === 'true') {
-  console.log('In Memory Dev Mode');
+if (env.IN_MEMORY) {
+  logger.info('In Memory Dev Mode');
   configureBookingController(app, inMemoryDevDependencies());
 } else {
-  console.log('Postgres Dev Mode');
+  logger.info('Postgres Dev Mode');
   configureBookingController(app, devDependencies());
 }
 
 // should live here after the routes to catch errors from them
 app.use(errorHandler);
 
-app.listen(port, () => console.log(`Started App on port: ${port}!`));
+app.listen(env.PORT, () =>
+  logger.info(`Started App URL: http://localhost:${env.PORT}`),
+);

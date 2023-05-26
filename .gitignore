@@ -2,8 +2,6 @@
 dist/
 node_modules/
 src/**/*.js
-tests/__coverage__/
-tests/**/*.js
-tests/**/*.html
+coverage
 .DS_Store
 .env
