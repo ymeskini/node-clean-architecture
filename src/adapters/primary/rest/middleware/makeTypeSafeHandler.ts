@@ -24,25 +24,28 @@ const makeTypeSafeHandler = <
       try {
         config.params.parse(req.params);
       } catch (e) {
-        return res.status(400).json({ message: 'Bad Request' });
+        res.status(400).json({ message: 'Bad Request' });
+        return;
       }
     }
     if (config.query) {
       try {
         config.query.parse(query);
       } catch (e) {
-        return res.status(400).json({ message: 'Bad Request' });
+        res.status(400).json({ message: 'Bad Request' });
+        return;
       }
     }
     if (config.body) {
       try {
         config.body.parse(body);
       } catch (e) {
-        return res.status(400).send({ message: 'Bad Request' });
+        res.status(400).send({ message: 'Bad Request' });
+        return;
       }
     }
 
-    return handler(req, res, next);
+    handler(req, res, next);
   };
 };
 
