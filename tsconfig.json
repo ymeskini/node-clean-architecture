@@ -1,8 +1,8 @@
 {
-  "extends": "@ymeskini/tsconfig",
   "compilerOptions": {
     "outDir": "./dist",
-    "module": "Node16",
+    "module": "NodeNext",
+    "isolatedModules": true
   },
   "include": ["./src", "config"],
   "exclude": ["node_modules"]

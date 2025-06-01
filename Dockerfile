@@ -1,13 +1,13 @@
-FROM node:16-alpine
+FROM node:22-alpine
 
-RUN yarn global add nodemon
+RUN npm install -g nodemon
 
 RUN mkdir -p /usr/src/app
 WORKDIR /usr/src/app
 
-COPY package.json yarn.lock /usr/src/app/
+COPY package.json package-lock.json /usr/src/app/
 
-RUN yarn install
+RUN npm install
 
 COPY . /usr/src/app
 
