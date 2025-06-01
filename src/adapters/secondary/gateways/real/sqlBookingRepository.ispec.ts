@@ -1,14 +1,14 @@
+import { randomUUID } from 'node:crypto';
 import knex, { Knex } from 'knex';
 import {
   PostgreSqlContainer,
   StartedPostgreSqlContainer,
-} from 'testcontainers';
+} from '@testcontainers/postgresql';
 
 import { SqlBookingRepository } from './sqlBookingRepository';
 import { BookingModel } from '../../../../businesslogic/models/booking';
 import { Position } from '../../../../businesslogic/models/position';
 import { runMigration } from './knex/resetDb';
-import { randomUUID } from 'crypto';
 
 describe('Sql booking repository', () => {
   jest.setTimeout(60000);
@@ -23,19 +23,13 @@ describe('Sql booking repository', () => {
   const availableUberId = '319e4163-3152-40c0-bcc1-1800fe707082';
 
   beforeAll(async () => {
-    container = await new PostgreSqlContainer().start();
+    container = await new PostgreSqlContainer('postgres').start();
     sqlConnection = knex({
       client: 'postgresql',
-      connection: {
-        database: container.getDatabase(),
-        host: container.getHost(),
-        password: container.getPassword(),
-        port: container.getPort(),
-        user: container.getUsername(),
-      },
+      connection: container.getConnectionUri(),
     });
     await runMigration(sqlConnection);
-  }, 10000);
+  });
 
   beforeEach(async () => {
     newBookingId = randomUUID();
