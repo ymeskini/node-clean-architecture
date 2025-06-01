@@ -11,6 +11,8 @@ import { runMigration } from './knex/resetDb';
 import { randomUUID } from 'crypto';
 
 describe('Sql booking repository', () => {
+  jest.setTimeout(60000);
+
   let sqlConnection: Knex;
   let sqlBookingRepository: SqlBookingRepository;
   let container: StartedPostgreSqlContainer;
